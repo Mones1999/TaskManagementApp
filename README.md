@@ -9,3 +9,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
  - Clone the Repository: `git clone https://github.com/your-username/your-repository-name.git`
  - Install Dependencies: `npm i` or `npm install`
 
+# Running the Project
+  - Start the development server (in terminal): `ng s -o`
+  - Open your browser and visit `http://localhost:4200/` to view the application.
