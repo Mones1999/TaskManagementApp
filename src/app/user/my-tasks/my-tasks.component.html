@@ -1,0 +1,38 @@
+<div class="container mt-4">
+    <h3>My Tasks</h3>
+  
+    <!-- Task List Table -->
+    <table class="table table-bordered mt-3 text-center">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Due Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of myTasks">
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>
+            <span class="badge rounded-pill" [ngClass]="{
+              'bg-warning': task.status === 'Pending',
+              'bg-info': task.status === 'In Progress',
+              'bg-success': task.status === 'Completed'
+            }">
+              {{ task.status }}
+            </span>
+          </td>
+          <td>{{ task.dueDate | date }}</td>
+          <td class="d-flex justify-content-center">
+            <a class="btn btn-warning text-light mx-1" [routerLink]="['/user/myTasks/', task.taskId]">
+              <i class="bi bi-file-text-fill"></i>
+          </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

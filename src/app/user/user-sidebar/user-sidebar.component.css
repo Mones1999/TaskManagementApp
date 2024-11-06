@@ -1,0 +1,29 @@
+
+.sidebar {
+  position: fixed;
+  width: 250px;
+  top: 56px; 
+  left: 0;
+  height: calc(100vh - 56px); 
+  background-color: #343a40;
+  color: white;
+  overflow-y: auto;
+}
+
+.sidebar .nav-link {
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .nav-link.active {
+  background-color: #6c757d;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #495057;
+}
+.nav-item{
+  margin: 5px 0px 5px 0px;
+}

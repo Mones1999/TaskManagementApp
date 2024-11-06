@@ -1,0 +1,87 @@
+.user-layout {
+  background-color: #f8f9fa;
+  padding-top: 56px; 
+}
+.user-layout header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+}
+.main-content {
+  margin-left: 250px; 
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.nav-link{
+  cursor: pointer;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.notification-badge {
+  top: 12px; /* Adjust this value to move the badge vertically */
+  right: 11px; /* Adjust this value to move the badge horizontally */
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  background-color: #dc3545; /* Red color for the badge */
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(50%, -50%);
+}
+
+.custom-notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.custom-notification-dropdown .list-group-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-notification-dropdown .list-group-item.unread .notification-text {
+  font-weight: bold;
+}
+
+.custom-notification-dropdown .dropdown-header {
+  font-weight: bold;
+  padding: 8px 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.custom-notification-dropdown .dropdown-footer {
+  padding: 10px;
+  background-color: #f8f9fa;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.text-muted {
+  font-size: 0.7rem;
+}
+.unread {
+  font-weight: bold;
+  background-color: rgb(239, 239, 239);;
+}

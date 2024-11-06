@@ -1,0 +1,27 @@
+.page-link{
+    cursor: pointer;
+}
+.filter-section {
+    background-color: #f8f9fa; /* Soft background color */
+    border: 1px solid #dee2e6; /* Light border */
+    border-radius: 0.5rem;
+  }
+  
+  .form-label {
+    font-weight: 500;
+  }
+  
+  .form-select, .form-control {
+    box-shadow: none; /* Remove inner shadow */
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  

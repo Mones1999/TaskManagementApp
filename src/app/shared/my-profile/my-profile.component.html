@@ -1,0 +1,93 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h2 class="profile-title">My Profile</h2>
+    <form (ngSubmit)="onSubmit()" class="profile-form">
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="user.fullName"
+          name="name"
+          required
+          class="form-control"
+        />
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="user.email"
+          name="email"
+          required
+          class="form-control"
+          (blur)="checkEmailUniqueness()"
+          [ngClass]="{ 'is-invalid': emailTaken }"
+        />
+        <div *ngIf="emailTaken" class="invalid-feedback">
+          This email is already taken. Please choose a different one.
+        </div>
+      </div>
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="user.username"
+          name="username"
+          required
+          class="form-control"
+          (blur)="checkUsernameUniqueness()"
+          [ngClass]="{ 'is-invalid': usernameTaken }"
+        />
+        <div *ngIf="usernameTaken" class="invalid-feedback">
+          This username is already taken. Please choose a different one.
+        </div>
+      </div>
+
+      <!-- New Password Field (optional) -->
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input
+          type="password"
+          id="newPassword"
+          [(ngModel)]="user.password"
+          name="newPassword"
+          class="form-control"
+          (input)="validatePasswordStrength()"
+          [ngClass]="{ 'is-invalid': !passwordValid && user.password }"
+        />
+        <div *ngIf="!passwordValid && user.password" class="invalid-feedback">
+          Password must be at least 8 characters long and contain uppercase, lowercase, and a number.
+        </div>
+      </div>
+
+      <!-- Confirm New Password Field (only validates if New Password is entered) -->
+      <div class="form-group">
+        <label for="confirmNewPassword">Confirm New Password</label>
+        <input
+          type="password"
+          id="confirmNewPassword"
+          [(ngModel)]="confirmNewPassword"
+          name="confirmNewPassword"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': confirmNewPassword && confirmNewPassword !== user.password }"
+        />
+        <div *ngIf="confirmNewPassword && confirmNewPassword !== user.password" class="invalid-feedback">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <button type="submit" class="update-button" 
+        [disabled]="emailTaken || usernameTaken || !passwordValid || (user.password && confirmNewPassword !== user.password)">
+        Update Profile
+      </button>
+    </form>
+  </div>
+</div>

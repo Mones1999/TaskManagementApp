@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <h2 class="my-4">Admin Dashboard</h2>
+
+  <!-- Statistics Section -->
+  <div class="row">
+    <div class="col-md-8 col-sm-12 mb-3 row">
+      <div class="col-md-6 mb-3">
+        <div class="card text-center">
+        <div class="card-body">
+          <i class="bi bi-person-circle fs-1"></i>
+          <h5 class="card-title">Total Users</h5>
+          <p class="card-text display-4">{{ totalUsers }}</p>
+        </div>
+      </div>
+    </div>
+    
+      <div class="col-md-6 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <i class="bi bi-check2-circle fs-1"></i>
+            <h5 class="card-title">Total Tasks</h5>
+            <p class="card-text display-4">{{ totalTasks }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <!-- User Table -->
+  <h4>Users</h4>
+  <table class="table table-bordered mt-1">
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Number of Tasks</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of topUsers">
+        <td>{{ user.username }}</td>
+        <td>{{ user.numberOfTasks }}</td>
+        <td>
+          <span class="badge rounded-pill"
+                        [ngClass]="{'bg-success': user.status === 'Active', 'bg-danger': user.status === 'Inactive'}">
+                        {{ user.status }}
+                    </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-12 mb-3">
+      <div class="card text-center" style="height: 98%;">
+        <div class="card-body">
+          
+          <highcharts-chart *ngIf="chartOptions" class="mt-4"
+            [Highcharts]="Highcharts"
+            [options]="chartOptions"
+            style="width: 100%; height: 400px; display: block;">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

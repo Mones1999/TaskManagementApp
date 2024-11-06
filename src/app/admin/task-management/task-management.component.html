@@ -1,0 +1,175 @@
+<div class="container">
+    <!-- Task Management Header -->
+    <h2 class="mb-4">Task Management</h2>
+  
+    <!-- Add New Task Button -->
+    <button class="btn btn-primary mb-3" (click)="openAddTaskModal()">Add New Task</button>
+  
+    <!-- Task List with Table -->
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Assigned User</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of tasks">
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.assignedUserName }}</td>
+                <td>
+                    <span class="badge rounded-pill" [ngClass]="{
+                        'bg-warning ': task.status === 'Pending',
+                        'bg-info': task.status === 'In Progress',
+                        'bg-success': task.status === 'Completed'
+                    }">
+                        {{ task.status }}
+                    </span>
+                </td>
+                <td>{{ task.dueDate | date }}</td>
+                <td class="d-flex justify-content-around">
+                    <button class="btn btn-info mx-1 text-light" (click)="openEditTaskModal(task)">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <a class="btn btn-warning text-light mx-1" [routerLink]="['/admin/tasks/', task.taskId]">
+                        <i class="bi bi-file-text-fill"></i>
+                    </a>
+                    <button class="btn btn-danger mx-1" (click)="confirmDeleteTask(task)">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add/Edit Task Modal -->
+<div *ngIf="isTaskModalOpen" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <form #taskForm="ngForm" (ngSubmit)="isEditing ? updateTask() : createTask()">
+          <div class="modal-body">
+            <!-- Title Field with Validation -->
+            <div class="mb-3">
+              <label for="taskTitle" class="form-label">Title</label>
+              <input
+                id="taskTitle"
+                type="text"
+                [(ngModel)]="currentTask.title"
+                name="title"
+                required
+                class="form-control"
+                #title="ngModel"
+              />
+              <div *ngIf="title.invalid && title.touched" class="text-danger">
+                Title is required.
+              </div>
+            </div>
+        
+            <!-- Description Field with Validation -->
+            <div class="mb-3">
+              <label for="taskDescription" class="form-label">Description</label>
+              <textarea
+                id="taskDescription"
+                [(ngModel)]="currentTask.description"
+                name="description"
+                required
+                class="form-control"
+                #description="ngModel"
+              ></textarea>
+              <div *ngIf="description.invalid && description.touched" class="text-danger">
+                Description is required.
+              </div>
+            </div>
+        
+            <!-- Assign to User with Dropdown -->
+            <div class="mb-3">
+              <label for="taskUser" class="form-label">Assign to User</label>
+              <select
+                id="taskUser"
+                [(ngModel)]="currentTask.assignedUserId"
+                name="assignedUserId"
+                required
+                class="form-control"
+                #assignedUserId="ngModel"
+              >
+                <option [ngValue]="0" disabled>Select a user</option>
+                <option *ngFor="let user of users" [value]="user.userId">{{ user.username }}</option>
+              </select>
+              <div *ngIf="assignedUserId.invalid && assignedUserId.touched" class="text-danger">
+                Please select a user.
+              </div>
+            </div>
+        
+            <!-- Status Field with Validation -->
+            <div class="mb-3">
+              <label for="taskStatus" class="form-label">Status</label>
+              <select
+                id="taskStatus"
+                [(ngModel)]="currentTask.status"
+                name="status"
+                required
+                class="form-control"
+                #status="ngModel"
+              >
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+              <div *ngIf="status.invalid && status.touched" class="text-danger">
+                Status is required.
+              </div>
+            </div>
+        
+            <!-- Due Date Field with Validation -->
+            <div class="mb-3">
+              <label for="taskDueDate" class="form-label">Due Date</label>
+              <input
+                id="taskDueDate"
+                type="date"
+                [(ngModel)]="currentTask.dueDate"
+                name="dueDate"
+                required
+                class="form-control"
+                (ngModelChange)="validateDueDate()"
+                #dueDate="ngModel"
+              />
+              <div *ngIf="dueDateError" class="text-danger">
+                Due date must be greater than today.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeTaskModal()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid || dueDateError || currentTask.assignedUserId === 0">
+              {{ isEditing ? 'Update Task' : 'Create Task' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="isConfirmDeleteModalOpen" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <strong>{{currentTask.title}}</strong> ?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeConfirmDeleteModal()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="deleteTask()">Delete</button>
+        </div>
+    </div>
+</div>

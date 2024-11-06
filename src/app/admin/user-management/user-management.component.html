@@ -1,0 +1,307 @@
+<div class="container">
+    <h2 class="mb-4">User Management</h2>
+
+    <button class="btn btn-primary mb-3" (click)="openCreateUserModal()">Add New User</button>
+
+    <div class="search-bar mb-3">
+        <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()" class="form-control"
+            placeholder="Search users">
+    </div>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of filteredUsers">
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <span class="badge rounded-pill"
+                        [ngClass]="{'bg-success': user.status === 'Active', 'bg-danger': user.status === 'Inactive'}">
+                        {{ user.status }}
+                    </span>
+                </td>
+                <td class="d-flex justify-content-around">
+                    <button class="btn btn-info text-light mx-1" (click)="openEditUserModal(user)">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-warning text-light mx-1" (click)="openChangePasswordModal(user.userId!)">
+                        <i class="bi bi-key-fill"></i>
+                    </button>
+                    <button class="btn btn-danger text-light mx-1" (click)="openConfirmDeleteModal(user.userId!)">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Create User Modal -->
+<div *ngIf="isModalOpen" class="modal custom-modal">
+    <div class="modal-content">
+        <form #createUserForm="ngForm" (ngSubmit)="createUser()">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+            </div>
+            <div class="modal-body">
+                <!-- Full Name and Email -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label>Full Name</label>
+                        <input type="text" [(ngModel)]="currentUser.fullName" name="fullName" required
+                            class="form-control" #fullName="ngModel" />
+                        <div *ngIf="fullName.invalid && fullName.touched" class="text-danger">
+                            Full Name is required.
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Email</label>
+                        <input type="email" [(ngModel)]="currentUser.email" name="email" required email
+                            class="form-control" #email="ngModel" />
+                        <div *ngIf="email.invalid && email.touched" class="text-danger">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label>Username</label>
+                    <input type="text" [(ngModel)]="currentUser.username" name="username" required class="form-control"
+                        #username="ngModel" />
+                    <div *ngIf="username.invalid && username.touched" class="text-danger">
+                        Username is required.
+                    </div>
+                </div>
+
+                <!-- Role and Status -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label>Role</label>
+                        <select [(ngModel)]="currentUser.role" name="role" required class="form-control"
+                            #role="ngModel">
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                        <div *ngIf="role.invalid && role.touched" class="text-danger">
+                            Role is required.
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Status</label>
+                        <select [(ngModel)]="currentUser.status" name="status" required class="form-control"
+                            #status="ngModel">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <div *ngIf="status.invalid && status.touched" class="text-danger">
+                            Status is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password and Confirm Password -->
+                <div class="mb-3">
+                    <label>Password</label>
+                    <input type="password" [(ngModel)]="currentUser.password" name="password" required
+                        class="form-control" (input)="onPasswordInput()" #password="ngModel" />
+                    <small class="badge my-1" [ngClass]="{
+                    'bg-danger': passwordStrengthMessage === 'Weak',
+                    'bg-warning': passwordStrengthMessage === 'Moderate',
+                    'bg-success': passwordStrengthMessage === 'Strong'
+                    }">
+                        {{ passwordStrengthMessage }}
+                    </small>
+                    <div *ngIf="password.invalid && password.touched" class="text-danger">
+                        Password is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Confirm Password</label>
+                    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required
+                        class="form-control" (input)="checkPasswordMatch()" />
+                    <div *ngIf="passwordMismatch" class="text-danger">
+                        Password and Confirm Password do not match.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)="closeModal()" class="btn btn-secondary">Close</button>
+                <button type="submit" class="btn btn-primary" [disabled]="
+              createUserForm.invalid ||
+              passwordMismatch ||
+              passwordStrengthMessage === 'Weak'
+            ">
+                    Create User
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Edit User Modal -->
+<div *ngIf="isEditModalOpen" class="modal custom-modal">
+    <div class="modal-content">
+        <form #editUserForm="ngForm" (ngSubmit)="updateUser()">
+            <div class="modal-header">
+                <h2>Edit User</h2>
+            </div>
+            <div class="modal-body">
+                <!-- Full Name -->
+                <div class="mb-3">
+                    <label>Full Name</label>
+                    <input type="text" [(ngModel)]="currentUser.fullName" name="fullName" required class="form-control"
+                        #fullName="ngModel" />
+                    <div *ngIf="fullName.invalid && fullName.touched" class="text-danger">
+                        Full Name is required.
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label>Email</label>
+                    <input type="email" [(ngModel)]="currentUser.email" name="email" required email class="form-control"
+                        #email="ngModel" />
+                    <div *ngIf="email.invalid && email.touched" class="text-danger">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label>Username</label>
+                    <input type="text" [(ngModel)]="currentUser.username" name="username" required class="form-control"
+                        #username="ngModel" />
+                    <div *ngIf="username.invalid && username.touched" class="text-danger">
+                        Username is required.
+                    </div>
+                </div>
+
+                <!-- Role -->
+                <div class="mb-3">
+                    <label>Role</label>
+                    <select [(ngModel)]="currentUser.role" name="role" required class="form-control" #role="ngModel">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                    <div *ngIf="role.invalid && role.touched" class="text-danger">
+                        Role is required.
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="mb-3">
+                    <label>Status</label>
+                    <select [(ngModel)]="currentUser.status" name="status" required class="form-control"
+                        #status="ngModel">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="status.invalid && status.touched" class="text-danger">
+                        Status is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)="closeModal()" class="btn btn-secondary">Close</button>
+                <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">
+                    Update User
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Change Password Modal -->
+<div *ngIf="isChangePasswordModalOpen" class="modal custom-modal">
+    <div class="modal-content">
+      <form #changePasswordForm="ngForm" (ngSubmit)="changePassword()">
+        <div class="modal-header">
+          <h2>Change Password</h2>
+        </div>
+        <div class="modal-body">
+          <!-- New Password -->
+          <div class="mb-3">
+            <label>New Password</label>
+            <input
+              type="password"
+              [(ngModel)]="newPassword"
+              name="newPassword"
+              required
+              class="form-control"
+              (input)="onNewPasswordInput()"
+              #newPasswordField="ngModel"
+            />
+            <small [ngClass]="{
+              'text-danger': newPasswordStrengthMessage === 'Weak',
+              'text-warning': newPasswordStrengthMessage === 'Moderate',
+              'text-success': newPasswordStrengthMessage === 'Strong'
+            }">
+              {{ newPasswordStrengthMessage }}
+            </small>
+            <div *ngIf="newPasswordField.invalid && newPasswordField.touched" class="text-danger">
+              New Password is required.
+            </div>
+          </div>
+  
+          <!-- Confirm New Password -->
+          <div class="mb-3">
+            <label>Confirm New Password</label>
+            <input
+              type="password"
+              [(ngModel)]="confirmNewPassword"
+              name="confirmNewPassword"
+              required
+              class="form-control"
+              (input)="checkNewPasswordMatch()"
+              #confirmNewPasswordField="ngModel"
+            />
+            <div *ngIf="passwordMismatch && confirmNewPasswordField.touched" class="text-danger">
+              Password and Confirm Password do not match.
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" (click)="closeModal()" class="btn btn-secondary">Close</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="passwordMismatch || newPasswordStrengthMessage === 'Weak' || changePasswordForm.invalid"
+          >
+            Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="isConfirmDeleteModalOpen" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete {{currentUser.username}} user?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeConfirmDeleteModal()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
+        </div>
+    </div>
+</div>

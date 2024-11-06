@@ -1,0 +1,97 @@
+<div class="container mt-4">
+  
+  <div class="container mt-4">
+    <h3>Activity Log </h3>
+  
+    <!-- Filter Section -->
+    <div class="row mb-3 filter-section bg-light p-3 rounded shadow-sm">
+      <!-- User Filter -->
+      <div class="col-md-3">
+        <label for="userFilter" class="form-label">User</label>
+        <select [(ngModel)]="selectedUserId" class="form-select" id="userFilter">
+          <option value="">All Users</option>
+          <option *ngFor="let user of users" [value]="user.userId">{{ user.username }}</option>
+        </select>
+      </div>
+  
+      <!-- Action Filter -->
+      <div class="col-md-3">
+        <label for="actionFilter" class="form-label">Action</label>
+        <select [(ngModel)]="selectedAction" class="form-select" id="actionFilter">
+          <option value="">All Actions</option>
+          <option *ngFor="let action of actions">{{ action }}</option>
+        </select>
+      </div>
+  
+      <!-- Date From Filter -->
+      <div class="col-md-3">
+        <label for="dateFrom" class="form-label">Date From</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dateFrom"
+          [(ngModel)]="dateFrom"
+          (change)="validateDates()"
+        />
+        <div *ngIf="dateError" class="text-danger small">
+          Date From cannot be greater than Date To.
+        </div>
+      </div>
+  
+      <!-- Date To Filter -->
+      <div class="col-md-3">
+        <label for="dateTo" class="form-label">Date To</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dateTo"
+          [(ngModel)]="dateTo"
+          (change)="validateDates()"
+        />
+      </div>
+  
+      <!-- Apply Filters Button -->
+      <div class="col-12 mt-3 d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="applyFilters()">
+          <i class="bi bi-funnel-fill me-1"></i> Apply Filters
+        </button>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Activity Log Table -->
+  <table class="table table-bordered table-striped">
+    <thead class="text-center">
+      <tr>
+        <th>Timestamp</th>
+        <th>User</th>
+        <th>Action</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of paginatedLogs">
+        <td class="text-center">{{ log.timestamp | date: 'short' }}</td>
+        <td class="text-center">{{ log.username }}</td>
+        <td class="text-center">{{ log.action }}</td>
+        <td>{{ log.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Activity log pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="previousPage()">Previous</a>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">Page {{ currentPage }} of {{ totalPages }}</span>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="nextPage()">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>

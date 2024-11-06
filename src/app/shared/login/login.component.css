@@ -1,0 +1,109 @@
+/* Background styling */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #5a5a5a, #171717);
+    padding: 20px;
+  }
+  
+  /* Card styling */
+  .login-card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Title and subtitle */
+  .login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333333;
+  }
+  
+  .login-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+  }
+  
+  /* Form fields styling */
+  .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-bottom: 0.3rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 0.95rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #6a74a3;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+    outline: none;
+  }
+  
+  /* Login button */
+  .login-button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #868686, #303030);
+    border: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background: linear-gradient(135deg, #868686, #303030);
+  }
+  
+  .login-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+  }
+  
+  /* Footer link */
+  .login-footer {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  .login-footer a {
+    color: #1f6bdd;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .login-footer a:hover {
+    text-decoration: underline;
+  }
+  

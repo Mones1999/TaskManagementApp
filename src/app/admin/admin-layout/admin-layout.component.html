@@ -1,0 +1,53 @@
+<div class="admin-layout d-flex flex-column" style="height: 100vh;">
+  <header class="navbar navbar-expand navbar-light bg-white shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand">User Dashboard</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <!-- Notification Icon with Badge -->
+          <li class="nav-item position-relative">
+            <a class="nav-link position-relative" (click)="toggleNotifications()">
+              <i class="bi bi-bell notification-icon"></i>
+              <span class="badge notification-badge position-absolute" *ngIf="unreadNotificationsCount > 0">
+                {{ unreadNotificationsCount }}
+              </span>
+            </a>
+            <!-- Notification Dropdown List -->
+            <div *ngIf="showNotifications" class="custom-notification-dropdown">
+              <h6 class="dropdown-header">Notifications</h6>
+              <ul class="list-group list-group-flush">
+                <li *ngFor="let notification of notifications" 
+                    class="list-group-item d-flex flex-row" 
+                    [ngClass]="{ 'unread': !notification.isRead }">
+                    
+                    <div class="d-flex flex-column flex-grow-1">
+                      <small class="text-muted float-start">{{ notification.createdDate| date:'yyyy/MM/dd HH:mm' }}</small>
+                      <span class="notification-text">{{ notification.message }}</span>
+                    </div>
+                </li>
+              </ul>
+              <div *ngIf="notifications.length === 0" class="dropdown-footer text-center text-muted">
+                No new notifications
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/myProfile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="onClickLogOut()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="d-flex flex-grow-1">
+    <app-admin-sidebar></app-admin-sidebar>
+
+    <!-- Main Content Area -->
+    <main class="container-fluid main-content flex-grow-1">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

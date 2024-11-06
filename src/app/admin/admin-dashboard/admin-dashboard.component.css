@@ -1,0 +1,26 @@
+/* Dashboard Styles */
+.card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+  background-color: #f8f9fa; /* Light background for table headers */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2; /* Alternate row color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .card {
+    margin-bottom: 1rem; /* Space between cards on small screens */
+  }
+}
+
+

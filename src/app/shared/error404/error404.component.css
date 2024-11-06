@@ -1,0 +1,66 @@
+/* Background styling */
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #5a5a5a, #171717);
+    padding: 20px;
+  }
+  
+  /* Card styling */
+  .error-card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .error-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Error code and message */
+  .error-code {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #171717;
+    margin-bottom: 0.5rem;
+  }
+  
+  .error-message {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 1rem;
+  }
+  
+  .error-description {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Button styling */
+  .error-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #5a5a5a, #171717);
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .error-button:hover {
+    background: linear-gradient(135deg, #171717, #5a5a5a);
+  }
+  
