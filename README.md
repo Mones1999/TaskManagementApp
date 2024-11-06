@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
  - Ensure that you have Node.js `v22.11.0` installed on your system.
  - Install Angular CLI globally if you haven't already:
   `npm install -g @angular/cli@16.2.0`
- - Clone the Repository: `git clone https://github.com/your-username/your-repository-name.git`
+ - Clone the Repository: `git clone https://github.com/Mones1999/TaskManagementApp.git`
  - Install Dependencies: `npm i` or `npm install`
 
 # Running the Project
